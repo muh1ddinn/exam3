@@ -1,0 +1,521 @@
+definitions:
+  models.Changepasswor:
+    properties:
+      id:
+        type: string
+      mail:
+        type: string
+      newpassword:
+        type: string
+      password:
+        type: string
+    type: object
+  models.GetAllusersResponse:
+    properties:
+      count:
+        type: integer
+      users:
+        items:
+          $ref: '#/definitions/models.Users'
+        type: array
+    type: object
+  models.Responsee:
+    properties:
+      data: {}
+      description:
+        type: string
+      statusCode:
+        type: integer
+    type: object
+  models.Updatestatus:
+    properties:
+      active:
+        type: boolean
+      id:
+        type: string
+    type: object
+  models.UserLoginRequest:
+    properties:
+      mail:
+        type: string
+      password:
+        type: string
+    type: object
+  models.UserLoginResponse:
+    properties:
+      access_token:
+        type: string
+      refresh_token:
+        type: string
+    type: object
+  models.UserRegisterConf:
+    properties:
+      mail:
+        type: string
+      otp:
+        type: string
+      user:
+        $ref: '#/definitions/models.Users'
+    type: object
+  models.UserRegisterRequest:
+    properties:
+      mail:
+        type: string
+    type: object
+  models.Users:
+    properties:
+      Last_name:
+        type: string
+      active:
+        type: boolean
+      createdAt:
+        type: string
+      deleteAt:
+        type: string
+      first_name:
+        type: string
+      id:
+        type: string
+      login:
+        type: string
+      mail:
+        type: string
+      password:
+        type: string
+      phone:
+        type: string
+      sex:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+info:
+  contact: {}
+  description: This is a sample server celler server.
+  title: Swagger Example API
+  version: "1.0"
+paths:
+  /status:
+    patch:
+      consumes:
+      - application/json
+      description: Update a user's status
+      parameters:
+      - description: User
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.Updatestatus'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Responsee'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Responsee'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Responsee'
+      security:
+      - ApiKeyAuth: []
+      summary: Update a user's status
+      tags:
+      - User
+  /user:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves information about all user.
+      parameters:
+      - description: user
+        in: query
+        name: search
+        required: true
+        type: string
+      - description: page
+        in: query
+        name: page
+        type: integer
+      - description: limit
+        in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.GetAllusersResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Responsee'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Responsee'
+      security:
+      - ApiKeyAuth: []
+      summary: Get all user
+      tags:
+      - user
+    post:
+      consumes:
+      - application/json
+      description: Create a new user
+      parameters:
+      - description: user
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.Users'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Responsee'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Responsee'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Responsee'
+      security:
+      - ApiKeyAuth: []
+      summary: Create a user
+      tags:
+      - user
+    put:
+      consumes:
+      - application/json
+      description: Update a new USER
+      parameters:
+      - description: USER
+        in: body
+        name: USER
+        required: true
+        schema:
+          $ref: '#/definitions/models.Users'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Responsee'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Responsee'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Responsee'
+      security:
+      - ApiKeyAuth: []
+      summary: Update a USER
+      tags:
+      - USER
+  /user/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: This api deletes a user by its id and returns error or nil
+      parameters:
+      - description: user ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Responsee'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Responsee'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Responsee'
+      security:
+      - ApiKeyAuth: []
+      summary: delete a user by its id
+      tags:
+      - user
+    get:
+      consumes:
+      - application/json
+      description: This api gets a user by its id and returns its info
+      parameters:
+      - description: user
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Users'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Responsee'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Responsee'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Responsee'
+      security:
+      - ApiKeyAuth: []
+      summary: get a user by its id
+      tags:
+      - user
+  /user/password:
+    put:
+      consumes:
+      - application/json
+      description: Update a password
+      parameters:
+      - description: USER
+        in: body
+        name: USER
+        required: true
+        schema:
+          $ref: '#/definitions/models.Changepasswor'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Responsee'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Responsee'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Responsee'
+      security:
+      - ApiKeyAuth: []
+      summary: Update a password
+      tags:
+      - USER
+  /users/login:
+    post:
+      consumes:
+      - application/json
+      description: users login
+      parameters:
+      - description: login
+        in: body
+        name: login
+        required: true
+        schema:
+          $ref: '#/definitions/models.UserLoginRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.UserLoginResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Responsee'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Responsee'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Responsee'
+      summary: users login
+      tags:
+      - auth
+  /users/login_for_otp:
+    post:
+      consumes:
+      - application/json
+      description: users sendloginotp
+      parameters:
+      - description: register
+        in: body
+        name: register
+        required: true
+        schema:
+          $ref: '#/definitions/models.UserRegisterRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Responsee'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Responsee'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Responsee'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Responsee'
+      summary: users sendloginotp
+      tags:
+      - auth
+  /users/login_with_otp:
+    post:
+      consumes:
+      - application/json
+      description: users loginwith_otp
+      parameters:
+      - description: login
+        in: body
+        name: login
+        required: true
+        schema:
+          $ref: '#/definitions/models.UserLoginRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.UserLoginResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Responsee'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Responsee'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Responsee'
+      summary: users loginwith_otp
+      tags:
+      - auth
+  /users/register:
+    post:
+      consumes:
+      - application/json
+      description: users register
+      parameters:
+      - description: register
+        in: body
+        name: register
+        required: true
+        schema:
+          $ref: '#/definitions/models.UserRegisterRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Responsee'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Responsee'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Responsee'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Responsee'
+      summary: users register
+      tags:
+      - auth
+  /users/register-confirm:
+    post:
+      consumes:
+      - application/json
+      description: users register
+      parameters:
+      - description: register
+        in: body
+        name: register
+        required: true
+        schema:
+          $ref: '#/definitions/models.UserRegisterConf'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.UserLoginResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Responsee'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Responsee'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Responsee'
+      summary: users register
+      tags:
+      - auth
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
